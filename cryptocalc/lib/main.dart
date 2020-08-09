@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+const PrimaryColor = const Color(0xFFF2A900); // 0xFF is #... rest is HEX code
 
 void main() {
   runApp(MyApp());
@@ -8,7 +9,7 @@ void main() {
  
    @override
    Widget build(BuildContext context) {
-     const PrimaryColor = const Color(0xFFF2A900); // 0xFF is #... rest is HEX code
+    
 
      return MaterialApp(
        title: 'CryptoCalc v2.0',
@@ -22,20 +23,42 @@ void main() {
          body: Center(
           child: Text('Hello World'),
         ),
-        drawer: Drawer(),
+        drawer: Container(
+          width: 250,
+          child: DrawerCalc()
+        )
        )
      );
    }
  }
 
-class Drawer extends StatelessWidget {
-  const Drawer({Key key}) : super(key: key);
+ class DrawerHeaderContainer extends StatelessWidget {
+   const DrawerHeaderContainer({Key key}) : super(key: key);
+ 
+   @override
+   Widget build(BuildContext context) {
+     return Container(
+       height: 80,
+       child: DrawerHeader(
+            decoration: BoxDecoration(
+              color: PrimaryColor
+            ),
+            child: Text('Welcome Fulano'),)
+     );
+   }
+ }
+
+class DrawerCalc extends StatelessWidget {
+  const DrawerCalc({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        body: Text('STATELESS SEPARADO')
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: const <Widget>[
+          DrawerHeaderContainer()
+        ]
       )
     );
   }
