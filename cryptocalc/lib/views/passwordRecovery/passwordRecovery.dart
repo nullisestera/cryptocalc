@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../styles/colors.dart';
 
-class Signin extends StatefulWidget {
-  Signin({Key key}) : super(key: key);
+class PasswordRecovery extends StatefulWidget {
+  PasswordRecovery({Key key}) : super(key: key);
 
-  _SigninState createState() => _SigninState();
+  _PasswordRecoveryState createState() => _PasswordRecoveryState();
 }
 
-class _SigninState extends State<Signin> {
+class _PasswordRecoveryState extends State<PasswordRecovery> {
   @override
   Widget build(BuildContext context) {
       return Scaffold(
@@ -36,7 +36,7 @@ class _SigninState extends State<Signin> {
           ),
           Center(child: 
             Container(
-            height: 440.0,
+            height: 240.0,
             width: 320.0,
             margin: const EdgeInsets.only(top: 80.0),
             decoration: BoxDecoration(
@@ -46,17 +46,17 @@ class _SigninState extends State<Signin> {
           )
           ),
           Container(
-            height: 180.0,
+            height: 80.0,
             width: 320.0,
-            child: Text('Regístrate',
+            child: Text('Recupera tu contraseña',
               textAlign: TextAlign.center, 
               style: TextStyle(
                 fontFamily: 'Montserrat',
-                fontSize: 32,
+                fontSize: 24,
                 fontWeight: FontWeight.w400
               ),
             ),
-            margin: const EdgeInsets.only(left: 120.0, right: 120.0, top: 200.0, bottom: 250.0),
+            margin: const EdgeInsets.only(left: 120.0, right: 120.0, top: 300.0, bottom: 150.0),
           ),
         ],)
         );

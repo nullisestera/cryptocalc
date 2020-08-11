@@ -10,7 +10,7 @@ class DrawerHeaderContainer extends StatelessWidget {
         height: 80,
         child: DrawerHeader(
               decoration: BoxDecoration(
-                color: PrimaryColor
+                color: MustardColor
               ),
               child: Text('Welcome Fulano')),       
       );
@@ -33,7 +33,7 @@ class DrawerCalc extends StatelessWidget {
         children: <Widget>[
           DrawerHeaderContainer(),
           new ListTile(
-            leading: new Icon(Icons.home),
+            leading: new Icon(Icons.keyboard),
             title: new Text('Calc'),
             onTap: () {
               // change app state...
@@ -41,19 +41,49 @@ class DrawerCalc extends StatelessWidget {
             },
           ),
           new ListTile(
-            leading: new Icon(Icons.person),
-            title: new Text('Login'),
+            leading: new Icon(Icons.monetization_on),
+            title: new Text('Trade'),
             onTap: () {
               // change app state...
-              _gotoPage("/login", context);
+              _gotoPage("/trade", context);
             },
           ),
           new ListTile(
-            leading: new Icon(Icons.person),
-            title: new Text('Signin'),
+            leading: new Icon(Icons.show_chart),
+            title: new Text('Graph'),
             onTap: () {
               // change app state...
-              _gotoPage("/signin", context);
+              _gotoPage("/graph", context);
+            },
+          ),
+          new ListTile(
+            leading: new Icon(Icons.payment),
+            title: new Text('Pay'),
+            onTap: () {
+              // change app state...
+              _gotoPage("/pay", context);
+            },
+          ),
+          new ListTile(
+            leading: new Icon(Icons.account_circle),
+            title: new Text('Admin'),
+            onTap: () {
+              // change app state...
+              _gotoPage("/admin", context);
+            },
+          ),
+          const Divider(
+            color: Colors.grey,
+            height: 10,
+            thickness: 1,
+            endIndent: 0,
+          ),
+          new ListTile(
+            leading: new Icon(Icons.exit_to_app),
+            title: new Text('Logout'),
+            onTap: () {
+              // change app state...
+              _gotoPage("/login", context);
             },
           ),
         ]
