@@ -52,8 +52,8 @@ class _SigninState extends State<Signin> {
               textAlign: TextAlign.center, 
               style: TextStyle(
                 fontFamily: 'Montserrat',
-                fontSize: 32,
-                fontWeight: FontWeight.w400
+                fontSize: 30,
+                fontWeight: FontWeight.w600
               ),
             ),
             margin: const EdgeInsets.only(left: 120.0, right: 120.0, top: 200.0, bottom: 250.0),

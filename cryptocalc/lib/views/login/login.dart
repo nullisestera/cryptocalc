@@ -22,11 +22,11 @@ class _LoginState extends State<Login> {
     final emailField = Container(
       width: 240.0,
       child: TextField(
-      obscureText: true,
+      obscureText: false,
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Email",
+          hintText: "Correo Electrónico",
           ),
       )
     );
@@ -39,7 +39,7 @@ class _LoginState extends State<Login> {
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Password",
+          hintText: "Contraseña",
           ),
       )
     );
@@ -59,7 +59,7 @@ class _LoginState extends State<Login> {
               MaterialPageRoute(builder: (context) => Calc()),
           );
         },
-        child: Text("Login",
+        child: Text("Ingresar",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontFamily: 'Montserrat', fontWeight: FontWeight.bold)),
@@ -165,7 +165,7 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(height: 140.0),
+                SizedBox(height: 180.0),
                 emailField,
                 SizedBox(height: .0),
                 passwordField,

@@ -53,7 +53,7 @@ class _PasswordRecoveryState extends State<PasswordRecovery> {
               style: TextStyle(
                 fontFamily: 'Montserrat',
                 fontSize: 24,
-                fontWeight: FontWeight.w400
+                fontWeight: FontWeight.w600
               ),
             ),
             margin: const EdgeInsets.only(left: 120.0, right: 120.0, top: 300.0, bottom: 150.0),
