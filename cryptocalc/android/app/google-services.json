@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1097691531112",
+    "firebase_url": "https://cryptocalc-881a2.firebaseio.com",
+    "project_id": "cryptocalc-881a2",
+    "storage_bucket": "cryptocalc-881a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097691531112:android:e9e19c6545a2483eb778dd",
+        "android_client_info": {
+          "package_name": "com.example.cryptocalc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1097691531112-s64kvbcma5108hpv8ifop79nqnapbp3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw1NvG65QvyVbHbi9xygiV1qge6tqFMkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1097691531112-s64kvbcma5108hpv8ifop79nqnapbp3c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

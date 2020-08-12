@@ -3,17 +3,23 @@ import '../../styles/colors.dart';
 import '../../views/calc/calc.dart';
 import '../../views/signin/signin.dart';
 import '../../views/passwordRecovery/passwordRecovery.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import '../../api/login_auth.dart';
 
 class Login extends StatefulWidget {
+
   Login({Key key}) : super(key: key);
 
-  _LoginState createState() => _LoginState();
+  LoginState createState() => LoginState();
 }
 
-class _LoginState extends State<Login> {
+class LoginState extends State<Login> {
 
-  @override
+  final _formKey = GlobalKey<FormState>();
+  String _password;
+  String _email;
+
   Widget build(BuildContext context) {
 
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
@@ -21,7 +27,15 @@ class _LoginState extends State<Login> {
     //ELEMENTS
     final emailField = Container(
       width: 240.0,
-      child: TextField(
+      child: TextFormField(
+      validator: (value) {
+            if (value.isEmpty) {
+              return 'Ingrese su correo';
+            }
+            return null;
+      },  
+      onSaved: (value) => _email = value,
+      keyboardType: TextInputType.emailAddress, 
       obscureText: false,
       style: style,
       decoration: InputDecoration(
@@ -34,8 +48,15 @@ class _LoginState extends State<Login> {
 
     final passwordField = Container(
       width: 240.0,
-      child: TextField(
+      child: TextFormField(
+      validator: (value) {
+            if (value.isEmpty) {
+              return 'Ingrese su contraseña';
+            }
+            return null;
+      },
       obscureText: true,
+      onSaved: (value) => _password = value,
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -53,11 +74,44 @@ class _LoginState extends State<Login> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Calc()),
-          );
+        onPressed: () async {
+          // save the fields..
+          final form = _formKey.currentState;
+          form.save();
+
+          // Validate will return true if is valid, or false if invalid.
+          if (form.validate()) {
+              try {
+                FirebaseUser result =
+                    await Provider.of<AuthService>(context).loginUser(
+                        email: _email, password: _password);
+
+              String emailFirebase = result.providerData[0].email;
+
+              if(emailFirebase == "$_email"){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Calc()),
+                );
+              }  
+
+              } on AuthException catch (error) {
+                return _buildErrorDialog(context, error.message);
+              } on Exception catch (error) {
+                return _buildErrorDialog(context, error.toString());
+              }
+            }
+
+        /*if (form.validate()) {
+            print("$_email $_password");
+
+            if("$_email" != '' && "$_password" != '') {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Calc()),
+              );
+            }
+          }*/
         },
         child: Text("Ingresar",
             textAlign: TextAlign.center,
@@ -159,9 +213,11 @@ class _LoginState extends State<Login> {
             margin: const EdgeInsets.only(left: 120.0, right: 120.0, top: 180.0),
           ),
           Container(
-          child: Padding(
+            child: Padding(
             padding: const EdgeInsets.all(36.0),
-            child: Column(
+            child: Form(
+              key: _formKey,
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -193,9 +249,30 @@ class _LoginState extends State<Login> {
                 registerLink  
               ],
             ),
+            
+            )
           )
           )
         ],)
         );
     }
 }
+
+ Future _buildErrorDialog(BuildContext context, _message) {
+    return showDialog(
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(_message),
+          actions: <Widget>[
+            FlatButton(
+                child: Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                })
+          ],
+        );
+      },
+      context: context,
+    );
+  }
