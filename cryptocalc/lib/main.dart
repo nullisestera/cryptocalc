@@ -33,9 +33,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-  bool loggedIn = false;
-
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,14 +56,6 @@ class _MyAppState extends State<MyApp> {
           },
         ),
         routes: <String, WidgetBuilder>{
-          // AUTH
-          /*"/home": (BuildContext context){
-            if(loggedIn){
-              return Calc();
-            } else {
-              return Login();
-            }
-          },*/
           "/login": (BuildContext context) => new Login(),
           "/signin": (BuildContext context) => new Signin(),
           "/passwordRecovery": (BuildContext context) => new PasswordRecovery(),

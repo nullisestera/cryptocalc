@@ -88,6 +88,8 @@ class LoginState extends State<Login> {
 
               String emailFirebase = result.providerData[0].email;
 
+              
+
               if(emailFirebase == "$_email"){
                 Navigator.push(
                   context,

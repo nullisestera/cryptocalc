@@ -1,18 +1,37 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../styles/colors.dart';
+import '../../api/login_auth.dart';
+import 'package:provider/provider.dart';
+
 
 class DrawerHeaderContainer extends StatelessWidget {
     const DrawerHeaderContainer({Key key}) : super(key: key);
-  
+    
     @override
     Widget build(BuildContext context) {
+
       return Container(
         height: 80,
-        child: DrawerHeader(
+        child: FutureBuilder<FirebaseUser>(
+          future: Provider.of<AuthService>(context).getUser(),
+          builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
+              // log error to console 
+              if (snapshot.error != null) { 
+                print("error");
+                return Text(snapshot.error.toString());
+              }
+
+              var email = snapshot.data != null ? snapshot.data.providerData[0].email : '';
+
+              return DrawerHeader(
               decoration: BoxDecoration(
                 color: MustardColor
               ),
-              child: Text('Welcome Fulano')),       
+              child: Text('Welcome $email'));
+              
+          }
+        )
       );
     }
   }
@@ -23,10 +42,11 @@ class DrawerCalc extends StatelessWidget {
     Navigator.of(context).pushReplacementNamed(route);
   }
 
-  // const DrawerCalc({Key key}) : super(key: key);
+  const DrawerCalc({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -81,7 +101,8 @@ class DrawerCalc extends StatelessWidget {
           new ListTile(
             leading: new Icon(Icons.exit_to_app),
             title: new Text('Logout'),
-            onTap: () {
+            onTap: () async {
+              await Provider.of<AuthService>(context).logout();
               // change app state...
               _gotoPage("/login", context);
             },
