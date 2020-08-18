@@ -51,7 +51,7 @@ class _SigninState extends State<Signin> {
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value.isEmpty || value.length < 1) {
-                      return 'Please enter name';
+                      return 'Ingrese su correo';
                     }
                   },
                   decoration: InputDecoration(labelText: 'Correo electrónico'),
