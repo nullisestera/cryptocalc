@@ -14,7 +14,7 @@ import 'views/login/login.dart';
 import 'views/signin/signin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'api/login_auth.dart';
+import 'api/auth.dart';
 
 void main() => runApp(
   ChangeNotifierProvider<AuthService>(
@@ -33,7 +33,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

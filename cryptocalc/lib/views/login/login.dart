@@ -5,7 +5,7 @@ import '../../views/signin/signin.dart';
 import '../../views/passwordRecovery/passwordRecovery.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import '../../api/login_auth.dart';
+import '../../api/auth.dart';
 
 class Login extends StatefulWidget {
 
@@ -103,17 +103,6 @@ class LoginState extends State<Login> {
                 return _buildErrorDialog(context, error.toString());
               }
             }
-
-        /*if (form.validate()) {
-            print("$_email $_password");
-
-            if("$_email" != '' && "$_password" != '') {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Calc()),
-              );
-            }
-          }*/
         },
         child: Text("Ingresar",
             textAlign: TextAlign.center,
@@ -167,6 +156,7 @@ class LoginState extends State<Login> {
     );
 
       return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(children: <Widget>[
           Container(
             height: double.infinity,

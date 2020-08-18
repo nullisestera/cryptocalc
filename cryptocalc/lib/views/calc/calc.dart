@@ -1,5 +1,4 @@
 import 'package:cryptocalc/styles/colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../drawer/drawerCalc.dart';
 
