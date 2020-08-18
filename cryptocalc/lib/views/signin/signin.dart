@@ -16,10 +16,14 @@ class MyData {
 
 class _SigninState extends State<Signin> {
 
-  GlobalKey<FormState> _formKey =  GlobalKey<FormState>();
-  static var _focusNode =  FocusNode();
+   List<GlobalKey<FormState>> formKeys = [
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>()
+  ];
+  static var _focusNode = FocusNode();
   static MyData data = new MyData();
-  
+  List<Step> steps;
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +31,74 @@ class _SigninState extends State<Signin> {
       setState(() {});
       print('Has focus: $_focusNode.hasFocus');
     });
+
+    steps = [
+      Step(
+          title: const Text('Crear cuenta'),
+          isActive: true,
+          state: StepState.indexed,
+          content: Form(
+            key: formKeys[0],
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  focusNode: _focusNode,
+                  autocorrect: false,
+                  onSaved: (String value) {
+                    data._email = value;
+                  },
+                  maxLines: 1,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value.isEmpty || value.length < 1) {
+                      return 'Please enter name';
+                    }
+                  },
+                  decoration: InputDecoration(labelText: 'Correo electrónico'),
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Ingrese su contraseña';
+                    }
+                    return null;
+                  },
+                  obscureText: true,
+                  autocorrect: false,
+                  onSaved: (String value) {
+                    data._password = value;
+                  },
+                  decoration: InputDecoration(labelText: 'Contraseña'),
+                ),
+              ],
+            ),
+          )),
+      Step(
+          isActive: true,
+          state: StepState.indexed,
+          title: const Text('Nombre y Apellido'),
+          content: Form(
+            key: formKeys[1],
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  onSaved: (String value) {
+                    data._name = value;
+                  },
+                  autocorrect: false,
+                  decoration: InputDecoration(labelText: 'Nombre'),
+                ),
+                TextFormField(
+                  onSaved: (String value) {
+                    data._password = value;
+                  },
+                  autocorrect: false,
+                  decoration: InputDecoration(labelText: 'Apellido'),
+                ),
+              ],
+            ),
+          )),
+    ];
   }
 
   @override
@@ -35,91 +107,25 @@ class _SigninState extends State<Signin> {
     super.dispose();
   }
 
+  int currentStep = 0;
+  bool complete = false;
 
-  List<Step> steps = [
-      Step(
-        title: const Text('Correo'),
-        isActive: true,
-        state: StepState.indexed,
-        content: TextFormField(
-            focusNode: _focusNode,
-            onSaved: (String value) {
-              data._email = value;
-            },
-            maxLines: 1,
-            keyboardType: TextInputType.emailAddress,
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Ingrese su correo';
-              }
-              return null;
-            }, 
-            decoration: InputDecoration(labelText: 'Correo electrónico'),
-          ),
-      ),
+  next() {
+    currentStep + 1 != steps.length
+        ? goTo(currentStep + 1)
+        : setState(() => complete = true);
+  }
 
-      Step(
-        title: const Text('Contraseña'),
-        isActive: true,
-        state: StepState.indexed,
-        content: TextFormField(
-                validator: (value) {
-                if (value.isEmpty) {
-                        return 'Ingrese su contraseña';
-                      }
-                      return null;
-                },
-                obscureText: true,
-                onSaved: (String value) {
-                  data._password = value;
-                },
-                decoration: InputDecoration(labelText: 'Contraseña'),
-              ),
-      ),
-
-      Step(
-        isActive: true,
-        state: StepState.indexed,
-        title: const Text('Nombre'),
-        content: TextFormField(
-                onSaved: (String value) {
-                  data._name = value;
-                },
-                decoration: InputDecoration(labelText: 'Nombre'),
-              ),
-      ),
-
-      Step(
-        isActive: true,
-        state: StepState.indexed,
-        title: const Text('Apellido'),
-        content: TextFormField(
-                onSaved: (String value) {
-                  data._password = value;
-                },
-                decoration: InputDecoration(labelText: 'Apellido'),
-              ),
-      ),
-    ];
-
-    int currentStep = 0;
-    bool complete = false;
-
-    next() {
-      currentStep + 1 != steps.length
-          ? goTo(currentStep + 1)
-          : setState(() => complete = true);
+  cancel() {
+    if (currentStep > 0) {
+      goTo(currentStep - 1);
     }
+  }
 
-    cancel() {
-      if (currentStep > 0) {
-        goTo(currentStep - 1);
-      }
-    }
+  goTo(int step) {
+    setState(() => currentStep = step);
+  }
 
-    goTo(int step) {
-      setState(() => currentStep = step);
-    }
 
 
   @override
@@ -175,26 +181,32 @@ class _SigninState extends State<Signin> {
             margin: const EdgeInsets.only(left: 120.0, right: 120.0, top: 180.0, bottom: 100.0),
           ),
           // STEPPER
-    
-          Center(
-            child: Container(
-            margin: const EdgeInsets.only(top: 100),
-            height: 380.0,
-            width: 300.0,
-            child: Form(
-              key: _formKey,
-              child: 
-                Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: Stepper(
-                          steps: steps,
-                          currentStep: currentStep,
-                          onStepContinue: next,
-                          onStepTapped: (step) => goTo(step),
-                          onStepCancel: cancel,
-                          controlsBuilder: (BuildContext context,
-                          {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+           Center(
+                child: Container(
+                    margin: const EdgeInsets.only(top: 100),
+                    height: 380.0,
+                    width: 300.0,
+                    child: Column(children: <Widget>[
+                      Expanded(
+                          child: Stepper(
+                        steps: steps,
+                        currentStep: currentStep,
+                        onStepContinue: () {
+                          setState(() {
+                            if (formKeys[currentStep].currentState.validate()) {
+                              if (currentStep < steps.length - 1) {
+                                currentStep = currentStep + 1;
+                              } else {
+                                currentStep = 0;
+                              }
+                            }
+                          });
+                        },
+                        onStepTapped: (step) => goTo(step),
+                        onStepCancel: cancel,
+                        controlsBuilder: (BuildContext context,
+                            {VoidCallback onStepContinue,
+                            VoidCallback onStepCancel}) {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -202,33 +214,38 @@ class _SigninState extends State<Signin> {
                                 height: 80.0,
                               ),
                               FlatButton(
-                                color: MustardColor,
-                                onPressed: currentStep == 3 ? () async {
-                                  onStepContinue();
-                                  // save the fields..
-                                  final FormState formState = _formKey.currentState;
-                                  if (!formState.validate()) {
-                                    print('Please enter correct data');
-                                  } else {
-                                    formState.save();
-                                      print("Email: ${data._email}"); // THIS RETURNS Email: Null
-                                  }  
-                                } : onStepContinue,
-                                child: currentStep == 3 ?  const Text('FINALIZAR') : const Text('SIGUIENTE'),
+                                //color: MustardColor,
+                                onPressed: currentStep == 0
+                                    ? onStepContinue
+                                    : () async {
+                                        onStepContinue();
+                                        // save the fields..
+                                        print(currentStep);
+                                        final FormState formState =
+                                            formKeys[currentStep].currentState;
+                                        if (!formState.validate()) {
+                                          print('Please enter correct data');
+                                        } else {
+                                          formState.save();
+                                          print(
+                                              "Email: ${data._email}"); // THIS RETURNS Email: Null
+                                        }
+                                      },
+                                child: currentStep == 0
+                                    ? const Text('SIGUIENTE')
+                                    : const Text('FINALIZAR'),
                               ),
                               FlatButton(
-                                color: GoldColor,
+                                //color: GoldColor,
                                 onPressed: onStepCancel,
                                 child: const Text('CANCELAR'),
                               ),
                             ],
                           );
                         },
-                      )
-                    ),
-                  ])
-            )
-          ))
+                      )),
+                    ])))
+
         ],)
         );
     }
