@@ -6,6 +6,7 @@ import '../../views/passwordRecovery/passwordRecovery.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import '../../api/auth.dart';
+import '../../i18n/app_localizations.dart';
 
 class Login extends StatefulWidget {
 
@@ -30,7 +31,7 @@ class LoginState extends State<Login> {
       child: TextFormField(
       validator: (value) {
             if (value.isEmpty) {
-              return 'Ingrese su correo';
+              return AppLocalizations.of(context).translate('loginEmailValidation');
             }
             return null;
       },  
@@ -40,7 +41,7 @@ class LoginState extends State<Login> {
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Correo Electrónico",
+          hintText: AppLocalizations.of(context).translate('loginEmail'),
           ),
       )
     );
@@ -51,7 +52,7 @@ class LoginState extends State<Login> {
       child: TextFormField(
       validator: (value) {
             if (value.isEmpty) {
-              return 'Ingrese su contraseña';
+              return AppLocalizations.of(context).translate('loginPassValidation');
             }
             return null;
       },
@@ -60,7 +61,7 @@ class LoginState extends State<Login> {
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Contraseña",
+          hintText: AppLocalizations.of(context).translate('loginPass'),
           ),
       )
     );
@@ -104,7 +105,7 @@ class LoginState extends State<Login> {
               }
             }
         },
-        child: Text("Ingresar",
+        child: Text(AppLocalizations.of(context).translate('loginSubmit'),
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontFamily: 'Montserrat', fontWeight: FontWeight.bold)),
@@ -124,7 +125,7 @@ class LoginState extends State<Login> {
               MaterialPageRoute(builder: (context) => PasswordRecovery()),
           );
         },
-        child: Text('Recuperar Contraseña', style: TextStyle(
+        child: Text(AppLocalizations.of(context).translate('loginRecoveryPass'), style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontWeight: FontWeight.bold,
                     fontSize: 14
@@ -146,7 +147,7 @@ class LoginState extends State<Login> {
               MaterialPageRoute(builder: (context) => Signin()),
           );
         },
-        child: Text('¡REGÍSTRATE!', style: TextStyle(
+        child: Text(AppLocalizations.of(context).translate('loginGoToSignin'), style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontWeight: FontWeight.bold,
                     fontSize: 14
@@ -194,7 +195,7 @@ class LoginState extends State<Login> {
           Container(
             height: 180.0,
             width: 350.0,
-            child: Text('Ingresa',
+            child: Text(AppLocalizations.of(context).translate('loginTitle'),
               textAlign: TextAlign.center, 
               style: TextStyle(
                 fontFamily: 'Montserrat',
@@ -224,7 +225,7 @@ class LoginState extends State<Login> {
                 SizedBox(
                   height: 15.0,
                 ),
-                Text('¿Olvidaste tu contraseña?', style: TextStyle(
+                Text(AppLocalizations.of(context).translate('loginForgotPass'), style: TextStyle(
                   fontFamily: 'Montserrat',
                   fontWeight: FontWeight.w200,
                   fontSize: 16
@@ -233,7 +234,7 @@ class LoginState extends State<Login> {
                 SizedBox(
                   height: 12.0,
                 ),
-                Text('¿No tienes cuenta?', style: TextStyle(
+                Text(AppLocalizations.of(context).translate('loginGoToSigninQuestion'), style: TextStyle(
                   fontFamily: 'Montserrat',
                   fontWeight: FontWeight.w200,
                   fontSize: 16
@@ -254,11 +255,11 @@ Future _buildErrorDialog(BuildContext context, _message) {
     return showDialog(
       builder: (context) {
         return AlertDialog(
-          title: Text('Error'),
+          title: Text(AppLocalizations.of(context).translate('loginError')),
           content: Text(_message),
           actions: <Widget>[
             FlatButton(
-                child: Text('Cancelar'),
+                child: Text(AppLocalizations.of(context).translate('loginCancel')),
                 onPressed: () {
                   Navigator.of(context).pop();
                 })

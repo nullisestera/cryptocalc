@@ -1,0 +1,14 @@
+{
+    "loginTitle": "Login",
+    "loginEmail": "Email Address",
+    "loginEmailValidation": "Enter your Email",
+    "loginPass": "Password",
+    "loginPassValidation": "Enter your Password",
+    "loginSubmit": "LOGIN",
+    "loginForgotPass": "Forgot your pasword?",
+    "loginRecoveryPass": "Recover your password",
+    "loginGoToSigninQuestion": "No account?",
+    "loginGoToSignin": "SIGN IN",
+    "loginError": "Error",
+    "loginCancel": "Cancel"
+}

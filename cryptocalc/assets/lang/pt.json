@@ -1,0 +1,14 @@
+{
+    "loginTitle": "Conecte-se",
+    "loginEmail": "Endereço de e-mail",
+    "loginEmailValidation": "Digite seu e-mail",
+    "loginPass": "Senha",
+    "loginPassValidation": "Coloque sua senha",
+    "loginSubmit": "CONECTE-SE",
+    "loginForgotPass": "Você esqueceu sua senha?",
+    "loginRecoveryPass": "Recuperar senha",
+    "loginGoToSigninQuestion": "Você não tem uma conta?",
+    "loginGoToSignin": "Inscrever-se!",
+    "loginError": "Erro",
+    "loginCancel": "Cancel"
+}

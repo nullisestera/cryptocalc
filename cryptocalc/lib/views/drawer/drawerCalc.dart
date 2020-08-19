@@ -58,7 +58,7 @@ class DrawerCalc extends StatelessWidget {
             title: new Text('Calc'),
             onTap: () {
               // change app state...
-              _gotoPage("/home", context);
+              _gotoPage("/calc", context);
             },
           ),
           new ListTile(
