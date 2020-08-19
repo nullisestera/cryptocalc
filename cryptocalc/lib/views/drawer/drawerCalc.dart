@@ -22,13 +22,14 @@ class DrawerHeaderContainer extends StatelessWidget {
                 return Text(snapshot.error.toString());
               }
 
-              var email = snapshot.data != null ? snapshot.data.providerData[0].email : '';
+
+              var name = snapshot.data != null ? snapshot.data.providerData[0].displayName : '';
 
               return DrawerHeader(
               decoration: BoxDecoration(
                 color: MustardColor
               ),
-              child: Text('Welcome $email'));
+              child: Text('Welcome $name'));
               
           }
         )

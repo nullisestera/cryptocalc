@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../styles/colors.dart';
+import '../../api/auth.dart';
+import '../../views/calc/calc.dart';
 
 class Signin extends StatefulWidget {
   Signin({Key key}) : super(key: key);
@@ -7,46 +11,37 @@ class Signin extends StatefulWidget {
   _SigninState createState() => _SigninState();
 }
 
-class MyData {
-  String _password;
-  String _email;
-  String _name;
-  String _lastname;
-}
-
 class _SigninState extends State<Signin> {
 
-   List<GlobalKey<FormState>> formKeys = [
+  static TextEditingController _emailController = new TextEditingController();
+  static TextEditingController _passwordController  = new TextEditingController();
+  static TextEditingController _nameController = new TextEditingController();
+  static TextEditingController _lastnameController = new TextEditingController();
+
+  List<GlobalKey<FormState>> formKeys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>()
   ];
-  static var _focusNode = FocusNode();
-  static MyData data = new MyData();
+
   List<Step> steps;
 
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(() {
-      setState(() {});
-      print('Has focus: $_focusNode.hasFocus');
-    });
+
 
     steps = [
       Step(
           title: const Text('Crear cuenta'),
-          isActive: true,
+          isActive:  currentStep == 0 ? true : false,
           state: StepState.indexed,
           content: Form(
             key: formKeys[0],
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  focusNode: _focusNode,
                   autocorrect: false,
-                  onSaved: (String value) {
-                    data._email = value;
-                  },
+                  controller: _emailController,
                   maxLines: 1,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
@@ -65,16 +60,14 @@ class _SigninState extends State<Signin> {
                   },
                   obscureText: true,
                   autocorrect: false,
-                  onSaved: (String value) {
-                    data._password = value;
-                  },
+                  controller: _passwordController,
                   decoration: InputDecoration(labelText: 'Contraseña'),
                 ),
               ],
             ),
           )),
       Step(
-          isActive: true,
+          isActive: currentStep == 1 ? true : false,
           state: StepState.indexed,
           title: const Text('Nombre y Apellido'),
           content: Form(
@@ -82,17 +75,25 @@ class _SigninState extends State<Signin> {
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  onSaved: (String value) {
-                    data._name = value;
-                  },
                   autocorrect: false,
+                  controller: _nameController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Ingrese su nombre';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(labelText: 'Nombre'),
                 ),
                 TextFormField(
-                  onSaved: (String value) {
-                    data._password = value;
-                  },
                   autocorrect: false,
+                  controller: _lastnameController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Ingrese su apellido';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(labelText: 'Apellido'),
                 ),
               ],
@@ -101,20 +102,11 @@ class _SigninState extends State<Signin> {
     ];
   }
 
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
+
 
   int currentStep = 0;
   bool complete = false;
 
-  next() {
-    currentStep + 1 != steps.length
-        ? goTo(currentStep + 1)
-        : setState(() => complete = true);
-  }
 
   cancel() {
     if (currentStep > 0) {
@@ -126,7 +118,40 @@ class _SigninState extends State<Signin> {
     setState(() => currentStep = step);
   }
 
+  _submitDetails() async {
+    final FormState formState = formKeys[currentStep].currentState;
+    if (formState.validate()) {
+      formState.save();
+      print('email');
+      print(_emailController.value.text);
+      print('nombre completo');
+      print(_nameController.value.text + ' ' + _lastnameController.value.text);
+      try {
+        FirebaseUser result = await Provider.of<AuthService>(context).createUser(
+          email: _emailController.value.text, 
+          password: _passwordController.value.text, 
+          firstName: _nameController.value.text, 
+          lastName: _lastnameController.value.text
+        );
 
+        print('result:');
+        print(result);
+
+        if(result.email == _emailController.value.text){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Calc()),
+          );
+        } 
+
+
+      } on AuthException catch (error) {
+        return _buildErrorDialog(context, error.message);
+      } on Exception catch (error) {
+        return _buildErrorDialog(context, error.toString());
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +206,7 @@ class _SigninState extends State<Signin> {
             margin: const EdgeInsets.only(left: 120.0, right: 120.0, top: 180.0, bottom: 100.0),
           ),
           // STEPPER
-           Center(
+          Center(
                 child: Container(
                     margin: const EdgeInsets.only(top: 100),
                     height: 380.0,
@@ -194,10 +219,18 @@ class _SigninState extends State<Signin> {
                         onStepContinue: () {
                           setState(() {
                             if (formKeys[currentStep].currentState.validate()) {
+                              print('steps lenght');
+                              print(steps.length);
+                              print('current step');
+                              print(currentStep);
+                              print('eval');
+                              print(currentStep < steps.length - 1);
+
                               if (currentStep < steps.length - 1) {
                                 currentStep = currentStep + 1;
                               } else {
-                                currentStep = 0;
+                                setState(() => complete = true); 
+                                _submitDetails();
                               }
                             }
                           });
@@ -214,29 +247,12 @@ class _SigninState extends State<Signin> {
                                 height: 80.0,
                               ),
                               FlatButton(
-                                //color: MustardColor,
-                                onPressed: currentStep == 0
-                                    ? onStepContinue
-                                    : () async {
-                                        onStepContinue();
-                                        // save the fields..
-                                        print(currentStep);
-                                        final FormState formState =
-                                            formKeys[currentStep].currentState;
-                                        if (!formState.validate()) {
-                                          print('Please enter correct data');
-                                        } else {
-                                          formState.save();
-                                          print(
-                                              "Email: ${data._email}"); // THIS RETURNS Email: Null
-                                        }
-                                      },
-                                child: currentStep == 0
-                                    ? const Text('SIGUIENTE')
-                                    : const Text('FINALIZAR'),
+                                color: MustardColor,
+                                onPressed: onStepContinue,
+                                child: complete ? const Text('REGISTRAR') : const Text('SIGUIENTE'),
                               ),
                               FlatButton(
-                                //color: GoldColor,
+                                color: GoldColor,
                                 onPressed: onStepCancel,
                                 child: const Text('CANCELAR'),
                               ),
@@ -251,3 +267,21 @@ class _SigninState extends State<Signin> {
     }
 }
 
+Future _buildErrorDialog(BuildContext context, _message) {
+    return showDialog(
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(_message),
+          actions: <Widget>[
+            FlatButton(
+                child: Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                })
+          ],
+        );
+      },
+      context: context,
+    );
+}

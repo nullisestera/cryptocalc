@@ -27,15 +27,17 @@ class AuthService with ChangeNotifier {
       String lastName,
       String email,
       String password}) async {
+
     var r = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
 
     var u = r;
-    print('u in createUser');
-    print(u);
+    
     UserUpdateInfo info = UserUpdateInfo();
     info.displayName = '$firstName $lastName';
-    return await u.updateProfile(info);
+    await u.updateProfile(info);
+    var f = await getUser();
+    return f;
   }
 
   ///

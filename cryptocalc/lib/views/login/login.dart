@@ -250,7 +250,7 @@ class LoginState extends State<Login> {
     }
 }
 
- Future _buildErrorDialog(BuildContext context, _message) {
+Future _buildErrorDialog(BuildContext context, _message) {
     return showDialog(
       builder: (context) {
         return AlertDialog(
