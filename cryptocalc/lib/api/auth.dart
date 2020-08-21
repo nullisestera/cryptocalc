@@ -40,6 +40,26 @@ class AuthService with ChangeNotifier {
     return f;
   }
 
+  // Updating Created user
+  Future updateProfileCreated(
+    String userName,
+    String avatarURL
+  ) async {
+    var message;
+    UserUpdateInfo info = UserUpdateInfo();
+    info.displayName = '$userName';
+    info.photoUrl = avatarURL;
+
+    FirebaseUser firebaseUser = await _auth.currentUser();
+      firebaseUser
+          .updateProfile(info)
+          .then(
+            (value) => message = 'Success',
+          )
+          .catchError((onError) => message = 'error');
+      return message;
+  }
+
   ///
   /// wrapping the firebase call to signInWithEmailAndPassword (IN USE)
   /// `email` String
