@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1097691531112-1kmc4khj2qcnf7h1dl3p6i3j00d2jqt6.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1097691531112-1kmc4khj2qcnf7h1dl3p6i3j00d2jqt6</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAe7_MSUdxt3iipGRK_Fbhh8H38E88SF_E</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1097691531112</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.cryptocalc</string>
+	<key>PROJECT_ID</key>
+	<string>cryptocalc-881a2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cryptocalc-881a2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1097691531112:ios:741dbd99b0e7da46b778dd</string>
+	<key>DATABASE_URL</key>
+	<string>https://cryptocalc-881a2.firebaseio.com</string>
+</dict>
+</plist>
